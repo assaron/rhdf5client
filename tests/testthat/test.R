@@ -208,3 +208,9 @@ test_that("Request errors are reported", {
   }
 })
 
+test_that("Files on a directory on HSDS server can be listed", {
+  if (!check_hsds())
+    url <- 'https://alserglab.wustl.edu/hsds/?domain=/counts'
+    getHSDSFileList(url)
+})
+
