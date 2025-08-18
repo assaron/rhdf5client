@@ -16,5 +16,7 @@ An S4 class to represent an HDF5 file accessible from a server.
 location in the external server file system}
 
 \item{\code{dsetdf}}{a data.frame that caches often-used information about the file}
+
+\item{\code{type}}{string representing type of the file: "domain" for file and "folder" for directory}
 }}
 

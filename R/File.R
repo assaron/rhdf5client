@@ -148,3 +148,54 @@ setMethod("show", "HSDSFile", function(object) {
 # dput(object@shape)
 # cat("  use getData(...) or square brackets to retrieve content.\n")
 #})
+
+# private function to get files on a directory on HSDS server
+listDomainFiles <- function(src, directory) {
+  request <- paste0(src@endpoint, "/domains?domain=", directory)
+  response <- submitRequest(request)
+  domains <- response[["domains"]]
+  
+  res <- lapply(domains, function(d) {
+    if (d$class == "domain") {
+      return(d$name)
+    }
+    
+    stopifnot(d$class == "folder")
+    return(c(d$name,
+             listDomainFiles(src, d$name)))
+  })
+  res <- unlist(res)    
+  res
+}
+
+#' List files on a directory on HSDS-server 
+#' 
+#' This funstions returns a list of all HDF5-files on the server or all files of the collection
+#'
+#' @param url, containing url of the server and root domain.
+#' @param directory, containing name of the directory
+#' 
+#' @return List of all HDF5-files on the server or all files of the collection
+#' 
+#' @examples
+#' if (check_hsds()) {
+#'  url <- 'https://alserglab.wustl.edu/hsds/?domain=/counts'
+#'  getHSDSFileList(url)
+#' }
+#' @export
+getHSDSFileList <- function(url, directory = NULL) {
+  src <- httr::parse_url(url)
+  root <- src$query$domain
+  src <- paste0(src$scheme,'://',src$hostname,'/',src$path)
+  src <- HSDSSource(src)
+  if (is.null(directory)) {
+    directory <- root
+  } else {
+    directory <- paste0(root, "/", directory)
+  }
+  
+  hdf5FileList  <- listDomainFiles(src, directory)
+  hdf5FileList <- grep(".*\\.h5$", hdf5FileList, value = TRUE)
+  return(hdf5FileList)
+}
+

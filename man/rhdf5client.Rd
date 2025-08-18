@@ -2,10 +2,23 @@
 % Please edit documentation in R/rhdf5client2.R
 \docType{package}
 \name{rhdf5client}
+\alias{rhdf5client-package}
 \alias{rhdf5client}
 \title{rhdf5client: A package for accessing HDFGroup HDF5 servers from R.}
 \description{
 The rhdf5client package provides read-only access to HDF5 files
 maintained on a server. The HDFGroup provides two servers, an
 obsolescent one called `h5serv` and the newer prototype called `hsds`.
+}
+\author{
+\strong{Maintainer}: Vincent Carey \email{stvjc@channing.harvard.edu}
+
+Authors:
+\itemize{
+  \item Samuela Pollack \email{spollack@jimmy.harvard.edu}
+  \item Shweta Gopaulakrishnan \email{reshg@channing.harvard.edu}
+  \item BJ Stubbs \email{rebjh@channing.harvard.edu}
+  \item Alexey Sergushichev \email{alsergbox@gmail.com}
+}
+
 }
