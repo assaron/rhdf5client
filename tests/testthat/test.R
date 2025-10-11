@@ -119,7 +119,7 @@ test_that("Bad slices rejected",  {
 
 context("String support")
 test_that("Basic string support",  {
-    src.hsds <- HSDSSource('https://hsdsdev.bioconductor.org')
+    src.hsds <- HSDSSource('https://alserglab.wustl.edu/hsds/')
     f <- HSDSFile(src.hsds, "/shared/bioconductor/test_string.h5")
     d <- HSDSDataset(f, "/d")
     expect_true(d@type$class == "H5T_STRING")
@@ -134,7 +134,7 @@ test_that("Basic string support",  {
 
 context("Compound support")
 test_that("Basic compound support", {
-  src.hsds <- HSDSSource('https://hsdsdev.bioconductor.org')
+  src.hsds <- HSDSSource('https://alserglab.wustl.edu/hsds/')
   f <- HSDSFile(src.hsds, "/shared/bioconductor/test_compound.h5")
   d <- HSDSDataset(f, "/d")
   
@@ -169,7 +169,7 @@ test_that("Basic compound support", {
 
 context("Scalar support")
 test_that("Support of scalar values", {
-  src.hsds <- HSDSSource('https://hsdsdev.bioconductor.org')
+  src.hsds <- HSDSSource('https://alserglab.wustl.edu/hsds/')
   f <- HSDSFile(src.hsds, "/shared/bioconductor/test_scalar.h5")
   d <- HSDSDataset(f, "/d")
   v <- d[1] 
@@ -179,7 +179,7 @@ test_that("Support of scalar values", {
 
 context("Integer type support")
 test_that("Integer types are supported properly", {
-  src.hsds <- HSDSSource('https://hsdsdev.bioconductor.org')
+  src.hsds <- HSDSSource('https://alserglab.wustl.edu/hsds/')
   f <- HSDSFile(src.hsds, "/shared/bioconductor/test_numbers.h5")
   # not checking the actual values!
   
