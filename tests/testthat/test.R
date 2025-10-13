@@ -25,11 +25,11 @@ test_that("sproc/isplit work", {
 context("HSDSSource")
 test_that("Server found", {
  if (check_hsds()) {
-  src.hsds <- HSDSSource('https://hsdsdev.bioconductor.org')
+  src.hsds <- HSDSSource('https://alserglab.wustl.edu/hsds/')
   doms <- listDomains(src.hsds, '/shared/bioconductor')
   expect_true('/shared/bioconductor/patelGBMSC.h5' %in% doms) 
   # catch exception: non-existent source
-  src.fake <- HSDSSource('https://hsdsdev.bioconductor2.org')
+  src.fake <- HSDSSource('https://alserglab-nonex.wustl.edu/hsds/')
   expect_warning(listDomains(src.fake, '/shared/bioconductor/'), "bad http request")
  } else TRUE
 })
@@ -37,39 +37,39 @@ test_that("Server found", {
 context("HSDSFile")
 test_that("Files can be opened for reading", {
  if (check_hsds()) {
-  src.hsds <- HSDSSource('https://hsdsdev.bioconductor.org')
-  f1 <- HSDSFile(src.hsds, '/shared/bioconductor/tenx_full.h5')
+  src.hsds <- HSDSSource('https://alserglab.wustl.edu/hsds/')
+  f1 <- HSDSFile(src.hsds, '/shared/bioconductor/patelGBMSC.h5')
   expect_equal(f1@type, "domain")
   dsts <- listDatasets(f1)
-  expect_true('/newassay001' %in% dsts)
+  expect_true('/assay001' %in% dsts)
   # catch exception: non-existent or empty file
-  expect_error(HSDSFile(src.hsds, '/shared/bioconductor/tenx_nonex.h5'), "Not Found")
+  expect_error(HSDSFile(src.hsds, '/shared/bioconductor/patelGBMSC-nonex.h5'), "Not Found")
   } else TRUE
 })
 
 test_that("HSDSFile can be a directory", {
   if (check_hsds()) {
-    src.hsds <- HSDSSource('https://hsdsdev.bioconductor.org')
+    src.hsds <- HSDSSource('https://alserglab.wustl.edu/hsds/')
     expect_no_warning(f1 <- HSDSFile(src.hsds, '/shared/bioconductor'))
     expect_equal(f1@type, "folder")
     subdomains <- listDomains(f1@src, f1@domain)
-    expect_true("/shared/bioconductor/tenx_full.h5" %in% subdomains)
+    expect_true("/shared/bioconductor/patelGBMSC.h5" %in% subdomains)
   } else TRUE
 })
 
 context("HSDSDataset")
 test_that("Data can be retrieved from Datasets", {
  if (!check_hsds()) return(TRUE) else {
-  src.hsds <- HSDSSource('https://hsdsdev.bioconductor.org')
-  f2 <- HSDSFile(src.hsds, '/shared/bioconductor/tenx_full.h5')
-  d2 <- HSDSDataset(f2, '/newassay001')
-  R <- c(4046,2087,4654,3193)
-  A <- apply(getData(d2, c('1:4', '1:27998'), transfermode='JSON'), 1, sum)
+  src.hsds <- HSDSSource('https://alserglab.wustl.edu/hsds/')
+  f2 <- HSDSFile(src.hsds, '/shared/bioconductor/patelGBMSC.h5')
+  d2 <- HSDSDataset(f2, '/assay001')
+  R <- c(1964617,1266834,1627203,1338108)
+  A <- apply(round(getData(d2, c('1:4', '1:65218'), transfermode='JSON')), 1, sum)
   clRA = function(R,A) max(abs(R-A))<1e-6
   expect_true(clRA(R,A))
-  A <- apply(getData(d2, c('1:4', '1:27998'), transfermode='binary'), 1, sum)
+  A <- apply(round(getData(d2, c('1:4', '1:65218'), transfermode='binary')), 1, sum)
   expect_true(clRA(R,A))
-  A <- apply(d2[1:4, 1:27998], 1, sum)
+  A <- apply(round(d2[1:4, 1:65218]), 1, sum)
   expect_true(clRA(R,A))
  }
 })
@@ -77,10 +77,10 @@ test_that("Data can be retrieved from Datasets", {
 context("DelayedArray subclass HSDSArray")
 test_that("DelayedArray can be instantiated and accessed",  {
  if (!check_hsds()) return(TRUE) else {
-  R <- c(4046,2087,4654,3193)
-  da <- HSDSArray('https://hsdsdev.bioconductor.org', 'hsds', 
-        '/shared/bioconductor/tenx_full.h5', '/newassay001')
-  A <- apply(da[,1:4],2,sum)
+  R <- c(1964617,1266834,1627203,1338108)
+  da <- HSDSArray('https://alserglab.wustl.edu/hsds/', 'hsds', 
+        '/shared/bioconductor/patelGBMSC.h5', '/assay001')
+  A <- apply(round(da[,1:4]),2,sum)
   clRA = function(R,A) max(abs(R-A))<1e-6
   expect_true(clRA(R,A))
  }
@@ -119,7 +119,7 @@ test_that("Bad slices rejected",  {
 
 context("String support")
 test_that("Basic string support",  {
-    src.hsds <- HSDSSource('https://hsdsdev.bioconductor.org')
+    src.hsds <- HSDSSource('https://alserglab.wustl.edu/hsds/')
     f <- HSDSFile(src.hsds, "/shared/bioconductor/test_string.h5")
     d <- HSDSDataset(f, "/d")
     expect_true(d@type$class == "H5T_STRING")
@@ -134,7 +134,7 @@ test_that("Basic string support",  {
 
 context("Compound support")
 test_that("Basic compound support", {
-  src.hsds <- HSDSSource('https://hsdsdev.bioconductor.org')
+  src.hsds <- HSDSSource('https://alserglab.wustl.edu/hsds/')
   f <- HSDSFile(src.hsds, "/shared/bioconductor/test_compound.h5")
   d <- HSDSDataset(f, "/d")
   
@@ -169,7 +169,7 @@ test_that("Basic compound support", {
 
 context("Scalar support")
 test_that("Support of scalar values", {
-  src.hsds <- HSDSSource('https://hsdsdev.bioconductor.org')
+  src.hsds <- HSDSSource('https://alserglab.wustl.edu/hsds/')
   f <- HSDSFile(src.hsds, "/shared/bioconductor/test_scalar.h5")
   d <- HSDSDataset(f, "/d")
   v <- d[1] 
@@ -179,7 +179,7 @@ test_that("Support of scalar values", {
 
 context("Integer type support")
 test_that("Integer types are supported properly", {
-  src.hsds <- HSDSSource('https://hsdsdev.bioconductor.org')
+  src.hsds <- HSDSSource('https://alserglab.wustl.edu/hsds/')
   f <- HSDSFile(src.hsds, "/shared/bioconductor/test_numbers.h5")
   # not checking the actual values!
   
@@ -209,8 +209,9 @@ test_that("Request errors are reported", {
 })
 
 test_that("Files on a directory on HSDS server can be listed", {
-  if (!check_hsds())
+  if (!check_hsds()) {
     url <- 'https://alserglab.wustl.edu/hsds/?domain=/counts'
     getHSDSFileList(url)
+  }
 })
 
