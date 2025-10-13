@@ -7,5 +7,5 @@
 #' URL_hsds()
 #' @export
 URL_hsds = function() {
-  "https://hsdsdev.bioconductor.org"
+  "https://alserglab.wustl.edu/hsds/"
 }

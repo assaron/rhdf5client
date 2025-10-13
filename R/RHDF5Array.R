@@ -165,7 +165,7 @@ setMethod("DelayedArray", "HSDSArraySeed",
 #' check_hsds()
 #' @export
 check_hsds = function() {
- tst = "https://hsdsdev.bioconductor.org?domain=/shared/bioconductor/darmgcls.h5"
+ tst = "https://alserglab.wustl.edu/hsds/?domain=/shared/bioconductor/patelGBMSC.h5"
  ans = httr::GET(tst)
  ans$status_code == 200
 }
@@ -181,7 +181,7 @@ check_hsds = function() {
 #' @examples
 #' if (check_hsds()) {
 #'  HSDSArray(URL_hsds(), 
-#'     "hsds", "/shared/bioconductor/darmgcls.h5", "/assay001")
+#'     "hsds", "/shared/bioconductor/patelGBMSC.h5", "/assay001")
 #' }
 #' @export
 HSDSArray <- function(endpoint, svrtype, domain, dsetname)  {
