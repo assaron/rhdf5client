@@ -189,24 +189,17 @@ domainContents <- function(object, rootdir = '/hdfgroup/org')  {
       if ('domains' %in% names(response) && length(response[['domains']]) > 0)  {
 
         # with postpended slash gets directory contents
-        if ('root' %in% names(response[['domains']][[1]]) && 
-            response[['domains']][[1]][['root']] != 'None')  {
-          fn <- rootdir
-          ft <- 'self'
-          append_to_results(fn, ft)
-        } else  {
-          request <- paste0(object@endpoint, "/domains?domain=", rootdir, "/")
-          response <- submitRequest(request)
-          domains <- response[['domains']]
-          for (domain in domains)  {
-            if ('class' %in% names(domain) && 'name' %in% names(domain) && 
-               (domain[['class']] == 'domain' || domain[['class']] == 'folder'))  {
-              fn <- domain[['name']]
-              ft <- 'directory'
-              if (domain[['class']] == 'domain') 
-                ft <- 'file'
-              append_to_results(fn, ft)
-            }
+        # if ('root' %in% names(response[['domains']][[1]]) && 
+
+        domains <- response[['domains']]
+        for (domain in domains)  {
+          if ('class' %in% names(domain) && 'name' %in% names(domain) && 
+             (domain[['class']] == 'domain' || domain[['class']] == 'folder'))  {
+            fn <- domain[['name']]
+            ft <- 'directory'
+            if (domain[['class']] == 'domain') 
+              ft <- 'file'
+            append_to_results(fn, ft)
           }
         }
       }
