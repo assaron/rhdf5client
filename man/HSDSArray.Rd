@@ -29,7 +29,7 @@ members of its seed
 \examples{
 if (check_hsds()) {
  HSDSArray(URL_hsds(), 
-    "hsds", "/shared/bioconductor/darmgcls.h5", "/assay001")
+    "hsds", "/shared/bioconductor/patelGBMSC.h5", "/assay001")
 }
 }
 \seealso{

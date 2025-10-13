@@ -27,4 +27,4 @@ Collate: URL_hsds.R indx.R
 VignetteBuilder: knitr
 Encoding: UTF-8
 biocViews: DataImport, Software, Infrastructure
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
