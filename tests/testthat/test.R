@@ -202,16 +202,16 @@ test_that("Integer types are supported properly", {
 
 
 test_that("Request errors are reported", {
-  if (!check_hsds()) return(TRUE) else {
-    src.hsds <- HSDSSource("https://developer.nrel.gov/api/hsds")
-    expect_error(HSDSFile(src.hsds, "/shared/NASA/NCEP3/ncep3.h5"), "api_key")
-  }
+  skip_if_not(check_hsds())
+  
+  src.hsds <- HSDSSource("https://developer.nlr.gov/api/hsds")
+  expect_error(HSDSFile(src.hsds, "/shared/NASA/NCEP3/ncep3.h5"), "api_key")
 })
 
 test_that("Files on a directory on HSDS server can be listed", {
-  if (!check_hsds()) {
-    url <- 'https://alserglab.wustl.edu/hsds/?domain=/counts'
-    getHSDSFileList(url)
-  }
+  skip_if_not(check_hsds())
+  
+  url <- 'https://alserglab.wustl.edu/hsds/?domain=/counts'
+  expect_true(!is.null(getHSDSFileList(url)))
 })
 

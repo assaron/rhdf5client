@@ -164,10 +164,10 @@ setMethod("DelayedArray", "HSDSArraySeed",
 #' @examples
 #' check_hsds()
 #' @export
-check_hsds = function() {
- tst = "https://alserglab.wustl.edu/hsds/?domain=/shared/bioconductor/patelGBMSC.h5"
- ans = httr::GET(tst)
- ans$status_code == 200
+check_hsds <- function() {
+ tst <- "https://alserglab.wustl.edu/hsds/?domain=/shared/bioconductor/patelGBMSC.h5"
+ ans <- httr::GET(tst)
+ return(ans$status_code == 200)
 }
 
 #' Construct an object of type HSDSArray directly from the data
